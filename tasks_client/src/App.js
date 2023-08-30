@@ -12,6 +12,7 @@ function App() {
         <Route path="/" element={<Navigate to="/todo_tasks" />}></Route>
         <Route path="/todo_tasks" element={<ViewTasks />}></Route>
         <Route path="/todo_tasks_create" element={<CreateTasks />}></Route>
+        <Route path="/todo_tasks/:id" element={<CreateTasks />}></Route>
       </Routes>
     </BrowserRouter>
   );
