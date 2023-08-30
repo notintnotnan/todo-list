@@ -9,7 +9,6 @@ export default function TaskList(props) {
     const loadAllTasks = async () => {
       const allTasks = await getAllTasks();
       setTaskList(allTasks.data);
-      console.log(allTasks);
     };
     loadAllTasks();
   }, []);
@@ -22,6 +21,7 @@ export default function TaskList(props) {
           return (
             <TaskListItem
               key={item.id}
+              taskId={item.id}
               taskTitle={item.title}
               taskDesc={item.description}
               done={item.done}
