@@ -14,4 +14,14 @@ const createNewTask = (newTaskData) => {
   return request;
 };
 
-export { getAllTasks, createNewTask };
+const deleteTaskById = (taskId) => {
+  const request = tasksAxiosInstance.delete(`/${taskId}`);
+  return request;
+};
+
+const getTaskById = (taskId) => {
+  const request = tasksAxiosInstance.get(`/${taskId}`);
+  return request;
+};
+
+export { getAllTasks, createNewTask, deleteTaskById, getTaskById };
