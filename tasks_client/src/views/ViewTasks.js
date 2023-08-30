@@ -1,8 +1,9 @@
+import TaskList from "../components/TaskList";
 export default function ViewTasks(props) {
   return (
     <>
       <div>
-        <h1>View Tasks</h1>
+        <TaskList />
       </div>
     </>
   );
