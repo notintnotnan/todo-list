@@ -9,7 +9,7 @@ export default function TaskList(props) {
     const loadAllTasks = async () => {
       const allTasks = await getAllTasks();
       setTaskList(allTasks.data);
-      console.log(allTasks.data);
+      console.log(allTasks);
     };
     loadAllTasks();
   }, []);
