@@ -15,13 +15,24 @@ const createNewTask = (newTaskData) => {
 };
 
 const deleteTaskById = (taskId) => {
-  const request = tasksAxiosInstance.delete(`/${taskId}`);
+  const request = tasksAxiosInstance.delete(`/${taskId}/`);
   return request;
 };
 
 const getTaskById = (taskId) => {
-  const request = tasksAxiosInstance.get(`/${taskId}`);
+  const request = tasksAxiosInstance.get(`/${taskId}/`);
   return request;
 };
 
-export { getAllTasks, createNewTask, deleteTaskById, getTaskById };
+const updateTaskById = (taskId, newTaskData) => {
+  const request = tasksAxiosInstance.put(`/${taskId}/`, newTaskData);
+  return request;
+};
+
+export {
+  getAllTasks,
+  createNewTask,
+  deleteTaskById,
+  getTaskById,
+  updateTaskById,
+};
