@@ -1,0 +1,27 @@
+.customNavbar {
+  background: whitesmoke;
+  border: 1px whitesmoke solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.taskItemCard {
+  margin-top: 1em;
+}
+.taskItemHead {
+  background-color: whitesmoke;
+  border: 1px whitesmoke solid;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.taskItemBody {
+  border-left: 1px whitesmoke solid;
+  border-right: 1px whitesmoke solid;
+}
+
+.taskItemFooter {
+  background-color: whitesmoke;
+  border: 1px whitesmoke solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
