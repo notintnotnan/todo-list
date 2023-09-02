@@ -1,33 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { datetimeString } from "../utils/utils";
 import {
   createNewTask,
   deleteTaskById,
   getTaskById,
+  updateTaskById,
 } from "../api/tasks_api.js";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import TaskForm from "../components/TaskForm";
 
 export default function CreateTasks(props) {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
+  const [taskDone, setTaskDone] = useState(false);
+  const [taskDoneDate, setTaskDoneDate] = useState(null);
   const [postText, setPostText] = useState("");
   const [postCode, setPostCode] = useState(0);
   const [executing, setExecuting] = useState(false);
   const [params, setParams] = useState(useParams());
 
-  if (params.id) {
-    getTaskById(params.id).then((response) => {
-      setTaskTitle(response.data.title);
-      setTaskDesc(response.data.description);
-    });
-  }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (params.id) {
+      getTaskById(params.id).then((response) => {
+        setTaskTitle(response.data.title);
+        setTaskDesc(response.data.description);
+        setTaskDone(response.data.done);
+        setTaskDoneDate(response.data.date_done);
+      });
+    }
+  }, []);
 
   const sendCreateNewTask = async (e) => {
     e.preventDefault();
     const newTaskData = {
       title: taskTitle,
       description: taskDesc,
-      done: false,
+      done: taskDone,
       date_created: datetimeString(Date.now()),
     };
     setExecuting(true);
@@ -35,6 +45,7 @@ export default function CreateTasks(props) {
       setPostCode(response.status);
       setPostText(response.statusText);
       setExecuting(false);
+      navigate("/todo_tasks/");
     });
   };
 
@@ -44,44 +55,67 @@ export default function CreateTasks(props) {
     );
     if (confirmed) {
       await deleteTaskById(params.id);
+      navigate("/todo_tasks/");
     }
+  };
+
+  const sendUpdateTask = async () => {
+    const updateTaskFields = {
+      title: taskTitle,
+      description: taskDesc,
+      done: taskDone,
+      date_done: taskDoneDate,
+    };
+    setExecuting(true);
+    updateTaskById(params.id, updateTaskFields).then((response) => {
+      setPostCode(response.status);
+      setPostText(response.statusText);
+      setExecuting(false);
+      navigate("/todo_tasks/");
+    });
+  };
+
+  const cancelTaskEdit = () => {
+    navigate("/todo_tasks/");
   };
 
   return (
     <>
       <form onSubmit={sendCreateNewTask}>
-        <h1>Create Tasks</h1>
-        <input
-          className="row"
-          type="text"
-          placeholder="Title"
-          value={taskTitle}
-          onChange={(event) => {
-            setTaskTitle(event.target.value);
-          }}
-          required
-        ></input>
-        <textarea
-          className="row"
-          rows="4"
-          placeholder="Description"
-          value={taskDesc}
-          onChange={(event) => {
-            setTaskDesc(event.target.value);
-          }}
-        ></textarea>
-        <button className="row" type="submit" disabled={executing}>
-          Save
-        </button>
+        <TaskForm
+          taskTitle={taskTitle}
+          taskDesc={taskDesc}
+          taskDone={taskDone}
+          taskDoneDate={taskDoneDate}
+          action={params.id ? "Edit" : "Create"}
+          titleFun={setTaskTitle}
+          descFun={setTaskDesc}
+          doneFun={setTaskDone}
+          ddateFun={setTaskDoneDate}
+        ></TaskForm>
+        {!params.id && (
+          <>
+            <button type="submit" disabled={executing}>
+              Save
+            </button>
+            <button onClick={cancelTaskEdit} type="reset" disabled={executing}>
+              Cancel
+            </button>
+          </>
+        )}
       </form>
       <div>
         {params.id && (
           <>
-            <button disabled={executing}>Edit</button>
+            <button onClick={sendUpdateTask} disabled={executing}>
+              Update
+            </button>
             <button onClick={deleteTaskConfirmation} disabled={executing}>
               Delete
             </button>
-            <button disabled={executing}> Cancel</button>
+            <button onClick={cancelTaskEdit} disabled={executing}>
+              Cancel
+            </button>
           </>
         )}
       </div>
