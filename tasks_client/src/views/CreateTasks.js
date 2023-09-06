@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { datetimeString } from "../utils/utils";
+import { datetimeString, doneDateTransform } from "../utils/utils";
 import {
   createNewTask,
   deleteTaskById,
@@ -12,6 +12,7 @@ import TaskForm from "../components/TaskForm";
 export default function CreateTasks(props) {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
+  const [taskCreateDate, setTaskCreateDate] = useState(null);
   const [taskDone, setTaskDone] = useState(false);
   const [taskDoneDate, setTaskDoneDate] = useState(null);
   const [postText, setPostText] = useState("");
@@ -26,11 +27,20 @@ export default function CreateTasks(props) {
       getTaskById(params.id).then((response) => {
         setTaskTitle(response.data.title);
         setTaskDesc(response.data.description);
+        setTaskCreateDate(response.data.date_created);
         setTaskDone(response.data.done);
         setTaskDoneDate(response.data.date_done);
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (taskDone) {
+      setTaskDoneDate(datetimeString(Date.now()));
+    } else {
+      setTaskDoneDate(null);
+    }
+  }, [taskDone]);
 
   const sendCreateNewTask = async (e) => {
     e.preventDefault();
@@ -39,7 +49,9 @@ export default function CreateTasks(props) {
       description: taskDesc,
       done: taskDone,
       date_created: datetimeString(Date.now()),
+      date_done: taskDoneDate,
     };
+    console.log(newTaskData);
     setExecuting(true);
     createNewTask(newTaskData).then((response) => {
       setPostCode(response.status);
@@ -81,39 +93,62 @@ export default function CreateTasks(props) {
 
   return (
     <>
-      <form onSubmit={sendCreateNewTask}>
-        <TaskForm
-          taskTitle={taskTitle}
-          taskDesc={taskDesc}
-          taskDone={taskDone}
-          taskDoneDate={taskDoneDate}
-          action={params.id ? "Edit" : "Create"}
-          titleFun={setTaskTitle}
-          descFun={setTaskDesc}
-          doneFun={setTaskDone}
-          ddateFun={setTaskDoneDate}
-        ></TaskForm>
-        {!params.id && (
-          <>
-            <button type="submit" disabled={executing}>
-              Save
-            </button>
-            <button onClick={cancelTaskEdit} type="reset" disabled={executing}>
-              Cancel
-            </button>
-          </>
-        )}
-      </form>
+      <div className="container">
+        <form onSubmit={sendCreateNewTask}>
+          <TaskForm
+            taskTitle={taskTitle}
+            taskDesc={taskDesc}
+            taskCreateDate={taskCreateDate}
+            taskDone={taskDone}
+            taskDoneDate={taskDoneDate}
+            action={params.id ? "Edit" : "Create"}
+            titleFun={setTaskTitle}
+            descFun={setTaskDesc}
+            doneFun={setTaskDone}
+          ></TaskForm>
+          {!params.id && (
+            <>
+              <button
+                className="btn btn-outline-success"
+                type="submit"
+                disabled={executing}
+              >
+                Save
+              </button>
+              <button
+                className="btn btn-outline-secondary"
+                onClick={cancelTaskEdit}
+                type="reset"
+                disabled={executing}
+              >
+                Cancel
+              </button>
+            </>
+          )}
+        </form>
+      </div>
       <div>
         {params.id && (
           <>
-            <button onClick={sendUpdateTask} disabled={executing}>
+            <button
+              className="btn btn-outline-success"
+              onClick={sendUpdateTask}
+              disabled={executing}
+            >
               Update
             </button>
-            <button onClick={deleteTaskConfirmation} disabled={executing}>
+            <button
+              className="btn btn-outline-danger"
+              onClick={deleteTaskConfirmation}
+              disabled={executing}
+            >
               Delete
             </button>
-            <button onClick={cancelTaskEdit} disabled={executing}>
+            <button
+              className="btn btn-outline-secondary"
+              onClick={cancelTaskEdit}
+              disabled={executing}
+            >
               Cancel
             </button>
           </>

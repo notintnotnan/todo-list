@@ -23,6 +23,7 @@ export default function TaskList() {
             <div className="container">
               <h2>No tasks to show...</h2>
               <button
+                className="btn btn-outline-success"
                 onClick={() => {
                   navigate("/todo_tasks_create");
                 }}
