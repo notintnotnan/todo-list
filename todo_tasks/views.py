@@ -8,10 +8,11 @@ from .models import Task
 def apiOverview(request):
     api_urls = {
         "viewList":"api/v1/list/",
-        "viewTask":"",
-        "createTask":"",
-        "updateTask":"",
-        "deleteTask":"",
+        "viewTask":"api/v1/details/task_id/",
+        "createTask":"api/v1/create/",
+        "updateTask":"api/v1/update/task_id/",
+        "deleteTask":"api/v1/delete/task_id/",
+        "apiDocs":"docs/"
     }
 
     return Response(api_urls)
