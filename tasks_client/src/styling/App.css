@@ -1,0 +1,39 @@
+:root {
+  --mainBack: #c5f0a4;
+  --mainText: #111111;
+  --lightBack: #e1f7d0;
+  --lightText: #a9e978;
+  --darkBack: #2a2a2a;
+  --darkText: #000000;
+}
+
+.customNavbar {
+  background-color: var(--mainBack);
+  color: var(--mainText);
+  border: 1px whitesmoke solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.taskItemCard {
+  margin-top: 1em;
+}
+.taskItemHead {
+  background-color: var(--lightBack);
+  color: var(--darkText);
+  border: 1px var(--lightBack) solid;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.taskItemBody {
+  border-left: 1px var(--lightBack) solid;
+  border-right: 1px var(--lightBack) solid;
+}
+
+.taskItemFooter {
+  background-color: var(--lightBack);
+  border: 1px var(--lightBack) solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}

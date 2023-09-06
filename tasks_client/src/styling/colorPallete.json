@@ -1,0 +1,10 @@
+{
+  "colors": {
+    "mainBack": "#C5F0A4",
+    "mainText": "#111111",
+    "lightBack": "#E1F7D0",
+    "lightText": "#A9E978",
+    "darkBack": "#2A2A2A",
+    "darkText": "#000000"
+  }
+}
