@@ -1,5 +1,5 @@
 function datetimeString(date) {
-  date = new Date(date - 3600 * 6000);
+  date = new Date(date);
   const stringBuilt = `${date.getFullYear()}-${
     date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth()
   }-${date.getDay() < 10 ? "0" + date.getDay() : date.getDay()}T${
@@ -7,7 +7,12 @@ function datetimeString(date) {
   }:${date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()}:${
     date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()
   }-05:00`;
+  console.log();
   return stringBuilt;
 }
 
-export { datetimeString };
+const doneDateTransform = (dtFormString) => {
+  return dtFormString ? String(dtFormString) + ":00-05:00" : "";
+};
+
+export { datetimeString, doneDateTransform };
